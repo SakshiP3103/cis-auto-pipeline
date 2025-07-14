@@ -5,3 +5,13 @@
   tasks:
     - name: Run master CIS script
       command: bash /tmp/cis-project/cis-auto-pipeline/master.sh
+      register: benchmark_result
+      ignore_errors: true
+
+    - name: Set host result fact
+      set_fact:
+        cis_status: "{{ 'PASS' if benchmark_result.rc == 0 else 'FAIL' }}"
+
+    - name: Print status for host
+      debug:
+        msg: "Server {{ inventory_hostname }} CIS scan result: {{ cis_status }}"
