@@ -4,4 +4,4 @@
 
   tasks:
     - name: Run master CIS script
-      command: bash /tmp/cis-auto-pipeline/master.sh
+      command: bash /tmp/cis-project/cis-auto-pipeline/master.sh
