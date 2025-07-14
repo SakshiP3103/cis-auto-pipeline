@@ -1,7 +1,7 @@
 name: Run CIS Benchmark with Ansible
 
 on:
-  workflow_dispatch:  # You can trigger manually
+  workflow_dispatch:
 
 jobs:
   benchmark:
@@ -26,6 +26,10 @@ jobs:
         echo "${{ secrets.AWS_PEM_KEY }}" > aws-key.pem
         chmod 400 aws-key.pem
 
-    - name: Run Ansible Playbook
+    - name: Sync CIS Project to EC2 servers
       run: |
-        ansible-playbook -i inventory.ini run-l1s.yml
+        ansible -i inventory.ini aws_servers -m synchronize -a "src=. dest=/tmp/cis-project recursive=yes" --private-key aws-key.pem
+
+    - name: Run CIS Benchmark
+      run: |
+        ansible-playbook -i inventory.ini run-l1s.yml --private-key aws-key.pem
