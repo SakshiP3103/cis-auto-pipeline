@@ -1,0 +1,7 @@
+- name: Run CIS Benchmark for L1S
+  hosts: aws_servers
+  become: true
+
+  tasks:
+    - name: Run master CIS script
+      command: bash master.sh
