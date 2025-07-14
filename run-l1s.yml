@@ -4,4 +4,4 @@
 
   tasks:
     - name: Run master CIS script
-      command: bash master.sh
+      command: bash /tmp/cis-project/master.sh
